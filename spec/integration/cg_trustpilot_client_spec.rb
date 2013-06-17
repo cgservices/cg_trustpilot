@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe "Trustpilot Client" do
 
   before do
-    CgTrustpilot.config = "http://s.trustpilot.com/tpelements/1832271/f.json.gz"
+    CgTrustpilot.config = {:feed => "/../fixtures/f.json.gz"}
     @client = CgTrustpilot::Client.new
   end
 

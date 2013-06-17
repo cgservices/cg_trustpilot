@@ -1,10 +1,10 @@
-<a href="<%= feed.getReviewUrl() %>" rel="external">
+<a href="<%= feed.get_review_url %>" rel="external">
     <span class="trustpilot">
       <span class="item">
         <span class="fn"><%= "www.#{feed.get_domain_name}" %></span>
       </span>
-        <span class="humanScore"><%= feed.get_human_score %>'</span>
-        <span class="stars">';
+        <span class="humanScore"><%= feed.get_human_score %></span>
+        <span class="stars">
             <%for i in 1..6 %>
                 <% if i <= feed.get_stars %>
                     <span class="fullStar"></span>
