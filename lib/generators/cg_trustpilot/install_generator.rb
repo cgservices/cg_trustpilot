@@ -6,14 +6,14 @@ module CgTrustpilot
       desc "CgTrustpilot installer"
 
       # commandline arguments
-      argument :project_id, :type => :string, :required => true, :desc => "TrustPilot account ID", :banner => "ACCOUNT_ID"
+      argument :account_id, :type => :string, :required => true, :desc => "TrustPilot account ID", :banner => "ACCOUNT_ID"
 
       def self.source_root
         @source_root ||= File.join(File.dirname(__FILE__), 'templates')
       end
 
       def setup_trustpilot
-        if project_id
+        if account_id
           # create a loader for the config
           template "load_config.rb", "config/initializers/trustpilot.rb"
           # create the config file
