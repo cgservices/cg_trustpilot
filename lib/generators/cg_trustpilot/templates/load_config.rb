@@ -1,3 +1,5 @@
 raw_config = File.read(::Rails.root + "config/trustpilot.yml")
-CgTrustpilot.config = YAML.load(raw_config)
+config = YAML.load(raw_config)
+config[:temp_folder] = "#{Rails.root}#{config[:temp_folder]}"
+CgTrustpilot.config = config
 puts "Setting TRUSTPILOT"
