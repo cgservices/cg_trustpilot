@@ -4,6 +4,7 @@ describe "Trustpilot Client" do
 
   context 'when trustpilot stream is loaded from a file' do
     before do
+      CgTrustpilot.config = {:feed => "http://s.trustpilot.com.s3-external-3.amazonaws.com/tpelements/1832271/f.json.gz", :temp_folder => '/tmp/cache'}
       file = File.expand_path(File.dirname(__FILE__) + '/../fixtures/feed.json')
       client = CgTrustpilot::Client.new
       @feed = client.get_trustpilot_feed(file)
@@ -32,7 +33,7 @@ describe "Trustpilot Client" do
 
   context 'when trustpilot stream is loaded from http' do
     before do
-      CgTrustpilot.config = {:feed => "http://s.trustpilot.com.s3-external-3.amazonaws.com/tpelements/1832271/f.json.gz"}
+      CgTrustpilot.config = {:feed => "http://s.trustpilot.com.s3-external-3.amazonaws.com/tpelements/1832271/f.json.gz", :temp_folder => File.expand_path(File.dirname(__FILE__) + "/../../tmp/cache/")}
       client = CgTrustpilot::Client.new
       @feed = client.get_trustpilot_feed
     end

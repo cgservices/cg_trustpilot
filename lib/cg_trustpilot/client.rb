@@ -5,7 +5,7 @@ module CgTrustpilot
     require "net/http"
 
     def get_trustpilot_feed(filename = 'feed.json')
-      file = File.expand_path(File.dirname(__FILE__) + "/../../temp/cache/#{filename}")
+      file = "#{CgTrustpilot.config[:temp_folder]}/#{filename}"
       # check if a file was given
       if filename == 'feed.json'
         # get the feed url from the config

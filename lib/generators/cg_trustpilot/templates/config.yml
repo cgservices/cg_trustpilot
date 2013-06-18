@@ -1,1 +1,2 @@
 feed: "http://s.trustpilot.com/tpelements/<%= account_id %>/f.json.gz"
+temp_folder: "#{Rails.root}/tmp/cache/"
