@@ -1,21 +1,11 @@
-<a href="<%= feed.get_review_url %>" rel="external">
-    <span class="trustpilot">
-      <span class="item">
-        <span class="fn"><%= "www.#{feed.get_domain_name}" %></span>
-      </span>
-        <span class="humanScore"><%= feed.get_human_score %></span>
-        <span class="stars">
-            <%for i in 1..6 %>
-                <% if i <= feed.get_stars %>
-                    <span class="fullStar"></span>
-                <% else %>
-                    <span class="emptyStar"></span>
-                <% end %>
-            <% end %>
-        </span>
+<% if feed.is_valid? %>
+    <a href="<%= feed.get_review_url %>" rel="external">
+      <span class="logo"></span>
+      <span class="text">We've been rated</span>
+      <span class="score">''<%= feed.get_human_score %>''</span>
         <span class="rating">
-            <span class="average"><%= feed.get_score / 10 %></span> / <span class="best">10</span>
+          <span class="average"><%= feed.get_score / 10.0 %></span><span class="best"> / 10</span>
         </span>
-        <span class="votes"><%= feed.get_review_count %> reviews</span>
-    </span>
-</a>
+      <span class="footer">Click and give us your rating on Trustpilot.com</span>
+    </a>
+<% end %>

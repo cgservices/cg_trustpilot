@@ -1,18 +1,32 @@
 module CgTrustpilot
   class Client
 
-    def get_trustpilot_feed
-      require "net/http"
-      feed_url = CgTrustpilot.config[:feed]
-      uri = URI.parse(feed_url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      res = http.get(uri.request_uri)
-      case res
-        when Net::HTTPSuccess, Net::HTTPRedirection
-          return CgTrustpilot::Feed.new(JSON.parse(res.body))
-        else
-          raise ApiResponseError, 'Response is not Net::HTTPSuccess, received response body: ' << res.body
+    # http library for doing a http request
+    require "net/http"
+
+    def get_trustpilot_feed(filename = 'feed.json')
+      file = File.expand_path(File.dirname(__FILE__) + "/../../temp/cache/#{filename}")
+      # check if a file was given
+      if filename == 'feed.json'
+        # get the feed url from the config
+        feed_url = CgTrustpilot.config[:feed]
+        uri = URI.parse(feed_url)
+        http = Net::HTTP.new(uri.host, uri.port)
+        # do a http get request
+        res = http.get(uri.request_uri)
+        case res
+          when Net::HTTPSuccess
+            # save the result as file
+            File.open(file,'w') do |f|
+              f.write res.body
+            end
+        end
+      else
+        file = filename
       end
+      # json parse the unzipped tempfile and return as a Trustpilot feed object
+      file_contents = File.open(file) { |f| f.read }
+      CgTrustpilot::Feed.new(JSON.parse(file_contents))
     end
   end
 end

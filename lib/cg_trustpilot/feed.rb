@@ -7,11 +7,18 @@ module CgTrustpilot
       self.feed_data = feed
     end
 
+    def is_valid?
+      if self.feed_data['DomainName'].blank? || self.feed_data['TrustScore']['Score'].blank? || self.feed_data['TrustScore']['Stars'].blank? || self.feed_data['ReviewCount']['Total'].blank? || self.feed_data['ReviewPageUrl'].blank?
+        false
+      else
+        true
+      end
+    end
+
     def get_domain_name
       unless self.feed_data['DomainName'].blank?
         return self.feed_data['DomainName']
       end
-      raise ApiResponseError, '[DomainName] not found in seed data: ' << self.feed_data
     end
 
     def get_score
@@ -20,7 +27,6 @@ module CgTrustpilot
           return self.feed_data['TrustScore']['Score']
         end
       end
-      raise ApiResponseError, '[TrustScore][Score] not found in seed data: ' << self.feed_data
     end
 
     def get_review_count
@@ -29,7 +35,6 @@ module CgTrustpilot
           return self.feed_data['ReviewCount']['Total']
         end
       end
-      raise ApiResponseError, 'ReviewCount][Total] not found in seed data: ' << self.feed_data
     end
 
     def get_stars
@@ -38,7 +43,6 @@ module CgTrustpilot
           return self.feed_data['TrustScore']['Stars']
         end
       end
-      raise ApiResponseError, '[TrustScore][Stars] not found in seed data: ' << self.feed_data
     end
 
     def get_human_score
@@ -47,14 +51,12 @@ module CgTrustpilot
           return self.feed_data['TrustScore']['Human']
         end
       end
-      raise ApiResponseError, '[TrustScore][Human] not found in seed data: ' << self.feed_data
     end
 
     def get_review_url
       unless self.feed_data['ReviewPageUrl'].blank?
         return self.feed_data['ReviewPageUrl']
       end
-      raise ApiResponseError, '[ReviewPageUrl] not found in seed data: ' << self.feed_data
     end
   end
 end

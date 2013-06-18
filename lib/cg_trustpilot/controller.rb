@@ -6,7 +6,7 @@ module CgTrustpilot
 
     def trustpilot
       client = CgTrustpilot::Client.new
-      render :partial => "trustpilot/block.html.erb", :locals => {:feed => client.get_trustpilot_feed}
+      render :partial => "trustpilot/block", :locals => {:feed => client.get_trustpilot_feed}
     end
   end
 end
