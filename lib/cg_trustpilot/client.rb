@@ -27,6 +27,8 @@ module CgTrustpilot
       # json parse the unzipped tempfile and return as a Trustpilot feed object
       file_contents = File.open(file) { |f| f.read }
       CgTrustpilot::Feed.new(JSON.parse(file_contents))
+    rescue
+      CgTrustpilot::Feed.new({})
     end
   end
 end
