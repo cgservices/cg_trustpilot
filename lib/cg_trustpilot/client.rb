@@ -18,7 +18,7 @@ module CgTrustpilot
           when Net::HTTPSuccess
             # save the result as file
             File.open(file,'w') do |f|
-              f.write res.body
+              f.write res.body.force_encoding("utf-8")
             end
         end
       else
