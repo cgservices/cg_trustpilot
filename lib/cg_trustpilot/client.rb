@@ -4,12 +4,19 @@ module CgTrustpilot
     # http library for doing a http request
     require "net/http"
 
+    def initialize(feed_url = nil)
+      @feed_url = feed_url
+    end
+
     def get_trustpilot_feed(filename = 'feed.json')
       file = "#{CgTrustpilot.config[:temp_folder]}/#{filename}"
-      # check if a file was given
       if filename == 'feed.json'
         # get the feed url from the config
-        feed_url = CgTrustpilot.config[:feed]
+        unless @feed_url.present?
+          feed_url = CgTrustpilot.config[:feed]
+        else
+          feed_url = @feed_url
+        end
         uri = URI.parse(feed_url)
         http = Net::HTTP.new(uri.host, uri.port)
         # do a http get request
