@@ -5,10 +5,8 @@ module CgTrustpilot
     require "net/http"
 
     def parse_trustpilot_feed(name = 'feed.json', feed_url = nil)
-      # file = "#{CgTrustpilot.config[:temp_folder]}/#{name}"
       # json parse the unzipped tempfile and return as a Trustpilot feed object
-
-      trustpilot_rating = Rails.cache.fetch(name, race_condition_ttl: 2.minutes) do
+      trustpilot_rating = Rails.cache.fetch(name, expires_in: 15.minutes, race_condition_ttl: 2.minutes) do
         get_trustpilot_feed(name, feed_url)
       end
 
@@ -18,8 +16,6 @@ module CgTrustpilot
     end
 
     def get_trustpilot_feed(name = 'feed.json', feed_url = nil)
-      hash = Securandom.base64
-      # file = "#{CgTrustpilot.config[:temp_folder]}/#{hash}.#{name}"
       # get the feed url from the config
       feed_url ||= CgTrustpilot.config[:feed]
 
@@ -29,15 +25,10 @@ module CgTrustpilot
       res = http.get(uri.request_uri)
       case res
         when Net::HTTPSuccess
-          Rails.cache.write(name, res.body.force_encoding("utf-8"), expires_in: 15.minutes)
-          # save the result as file
-          # File.open(file,'w') do |f|
-#             f.write res.body.force_encoding("utf-8")
-#           end
-#           File.rename(file, "#{CgTrustpilot.config[:temp_folder]}/#{name}")
+          res.body.force_encoding("utf-8")
       end
-    ensure
-      # File.unlink(file)
+    rescue
+      Rails.cache.read(name)
     end
   end
 end
