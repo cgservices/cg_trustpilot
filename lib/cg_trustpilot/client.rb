@@ -26,6 +26,8 @@ module CgTrustpilot
       case res
         when Net::HTTPSuccess
           res.body.force_encoding("utf-8")
+        else
+          Rails.cache.read(name)
       end
     rescue
       Rails.cache.read(name)
